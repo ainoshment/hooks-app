@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useInsertionEffect } from "react";
 import "./App.css";
 import { BookToRead } from "./BookToRead";
+import { BookDescription } from "./BookDescription";
 import BookRow from "./BookRow";
 import Modal from "react-modal";
 import BookSearchDialog from "./BookSearchDialog";
-import { BookDescription } from "./BookDescription";
 
 Modal.setAppElement("#root");
 
@@ -26,15 +26,23 @@ const customStyles = {
 const APP_KEY = "react-hooks-tutorial";
 
 function App() {
-  const [books, setBooks] = useState<BookToRead[]>([] as BookToRead[]);
+  const [books, setBooks] = useState([] as BookToRead[]);
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    const storeBooks = localStorage.getItem(APP_KEY);
-    if (storeBooks) {
-      setBooks(JSON.parse(storeBooks));
+  // https://ja.reactjs.org/docs/hooks-reference.html#useinsertioneffect
+  useInsertionEffect(() => {
+    const storedBooks = localStorage.getItem(APP_KEY);
+    if (storedBooks) {
+      setBooks(JSON.parse(storedBooks));
     }
   }, []);
+
+  // useEffect(() => {
+  //   const storedBooks = localStorage.getItem(APP_KEY);
+  //   if (storedBooks) {
+  //     setBooks(JSON.parse(storedBooks));
+  //   }
+  // }, []);
 
   useEffect(() => {
     localStorage.setItem(APP_KEY, JSON.stringify(books));
