@@ -1,6 +1,6 @@
 export type BookToRead = {
   id: number;
   title: string;
-  author: string;
+  authors: string;
   memo: string;
 };
